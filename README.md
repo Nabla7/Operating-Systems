@@ -68,3 +68,87 @@
 ## Recommended Reading:
 
 - Silberschatz et al., Operating System Concepts Essentials, 2nd Edition. Chapters 1, 3, and 4.
+
+---
+
+## Week 2 : Cache Memory
+
+Understanding the principles behind operating systems' memory management is crucial, especially considering the discrepancy in speed between processors and storage devices.
+
+### Key Components:
+1. **Processor**
+2. **Memory**
+3. **Input/Output Devices**
+4. **Communication Bus**
+
+## Storage Hierarchy:
+- **Properties**:
+  - **Capacity**
+  - **Speed**
+  - **Cost**
+- **Types**:
+  - **Volatile**: Temporarily stores data (loses content when powered off).
+  - **Nonvolatile**: Permanently stores data (retains content when powered off).
+  - **Semiconductor memory**:
+    - Contains both volatile and nonvolatile types.
+    
+**Note**: The relationships among capacity, speed, and cost are still in place.
+
+### Why not always use the fastest memory components?
+It's impractical due to cost and other factors. Memory hierarchy is designed based on these relationships to get the best balance.
+
+## Memory Technology Evolution:
+- **SRAM** is typically used for cache.
+- **DRAM** is generally used for main memory.
+
+## Locality of Reference:
+Memory hierarchy's effectiveness is reliant on the principle of **locality of reference**, which includes:
+- **Spatial locality**: e.g., arrays and program counters.
+- **Temporal locality**: e.g., frequently accessed variables, loop constructs.
+
+## Cache Connection:
+Cache is an intermediary between memory and CPU, speeding up data access. The connection can be direct or through standard communication bus (potentially slower).
+
+### Cache Organization:
+- Memory is divided into M blocks with K words each.
+- Cache has C lines, significantly less than M.
+- Transfers are done in blocks, based on the **locality of reference** principle.
+
+## Cache Operations:
+- **Default hit ratio** is C/M.
+- **Effect of block size**: 
+  - Decreasing block size increases the number of cache lines, but might decrease the effect of spatial locality.
+  - Increasing block size decreases the number of cache lines, affecting spatial locality differently.
+
+## Mapping Functions:
+- Used to link main memory with cache.
+- **Types**:
+  - **Direct Mapping**: A specific memory block has only one spot in cache.
+  - **Associative Mapping**: Blocks can be written anywhere in cache.
+  - **Set Associative Mapping**: Cache is divided into sets, with each block mapped to one set.
+
+### Replacement Algorithms:
+For caches that allow a memory block to be written in multiple places, there's a need for algorithms to decide which cached item to replace on a miss.
+- **Random**: Simple but potentially inefficient.
+- **FIFO**: Replaces the oldest cache line.
+- **Least Recently Used (LRU)**: Replaces the least recently accessed line.
+- **Pseudo LRU**: Tries to achieve LRU's performance with FIFO's simplicity.
+
+## Memory Updates:
+For ensuring cache and main memory synchronization:
+- **Write Through**: All cache updates are directly updated in the main memory.
+- **Write Back**: Only updated in main memory when the block is removed from cache.
+
+## Current Cache Designs:
+- Multiple levels of cache (L1, L2, L3).
+- Cache can be split for instructions and data.
+- Some systems use TLBs, which will be discussed further in a virtual memory lecture.
+
+## Cache Benchmarking:
+- Benchmarking helps in quantifying cache characteristics.
+- Assumption for benchmarking is usually FIFO or LRU replacement policy.
+
+## Takeaways:
+- Memory hierarchy is a balancing act between speed, cost, and capacity.
+- Cache helps bridge the speed gap between the processor and main memory.
+- Understanding cache behaviors and policies is essential for optimal system performance.
