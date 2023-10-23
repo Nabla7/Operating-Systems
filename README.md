@@ -65,12 +65,6 @@
 
 ---
 
-## Recommended Reading:
-
-- Silberschatz et al., Operating System Concepts Essentials, 2nd Edition. Chapters 1, 3, and 4.
-
----
-
 ## Week 2 : Cache Memory
 
 Understanding the principles behind operating systems' memory management is crucial, especially considering the discrepancy in speed between processors and storage devices.
@@ -152,3 +146,112 @@ For ensuring cache and main memory synchronization:
 - Memory hierarchy is a balancing act between speed, cost, and capacity.
 - Cache helps bridge the speed gap between the processor and main memory.
 - Understanding cache behaviors and policies is essential for optimal system performance.
+
+  Certainly! It seems you've provided a summary representation of the slides. I'll correct and improve the transcription based on the details you provided:
+
+---
+
+# **Chapter 3 : Memory Management**  
+*[ Organizing Processes in Main Memory ]*
+
+**1. Introduction**  
+**2. Processor**  
+**3. Input/Output Devices**  
+**4. Communication Bus**  
+**5. Memory**  
+- Optimal use of the processor → multiple processes share memory  
+- The OS must determine: 
+    1. Which processes are present in memory
+    2. How they are organized  
+
+**Memory Management**  
+*Address Translation*  
+*[ handled by the loader, assisted by the linker ]*
+
+- **At compile time:** Absolute/physical address, location is rigid.
+- **At load time:** Relative/logical addresses mapped to absolute, once translated location is fixed.
+- **At run-time:** Relative/logical addresses, location is flexible.
+
+**Memory Management**  
+*Memory Organization*  
+- Part of the memory will be reserved for the OS.
+- Focus: management of memory to be shared by different user processes.
+- Three main alternatives:
+    - **Partitioning**
+    - **Paging**
+    - **Segmentation**
+
+**Partitioning**  
+- **Fixed Partitioning – Fixed Size:** Divide memory into partitions of fixed size. Each process image gets a partition assigned. Issues include internal fragmentation (~half of the partition is unused), processes too large to fit, and limitations on the max. size of process image and number of processes in memory. Solution: partitions of multiple sizes.
+- **Fixed Partitioning – Variable Size:** Less internal fragmentation. Challenges include deciding where to add each process.
+- **Placement Algorithm:** Options include waiting for an available partition or taking a sufficiently large partition.
+- **Dynamic Partitioning:** Create partitions dynamically. Challenges include memory holes (external fragmentation).
+- **Buddy System:** Divide and combine memory blocks dynamically, achieving ~75% memory usage.
+
+**Paging**  
+- **Description:** Divide memory and process images into fixed-size blocks (pages). Advantages: no external fragmentation and small internal fragmentation.
+- **Memory Translation:** Logical address translation using process page tables.
+- **x86 Paging:** Specific details on x86 architecture paging.
+
+**Segmentation**  
+- **Description:** Similar to paging but with variable-size segments. Advantages: no internal fragmentation. Potential issue: external fragmentation.
+- **Memory Translation:** Logical address translation using process segment tables.
+- **x86 Segmentation:** Details on x86 segmentation.
+
+**Key Points**  
+- Advantages and disadvantages of fixed and dynamic partitioning.
+- Placement algorithms.
+- Buddy system.
+- Paging and Segmentation.
+
+### Disambuguation for key points:
+
+1. **Advantages and Disadvantages of Fixed and Dynamic Partitioning**
+
+   - **Fixed Partitioning**:
+     - **Advantages**:
+       - **Simplicity**: Memory is divided into fixed sizes, which makes it easy to manage.
+       - **Predictability**: Since partitions are fixed, allocation and deallocation are consistent.
+     - **Disadvantages**:
+       - **Internal Fragmentation**: A process may not use all the space in a fixed partition, leading to wasted memory.
+       - **Limitation on Process Size**: Processes larger than a partition size cannot be accommodated.
+       - **Limitation on Number of Processes**: The number of processes that can be loaded into memory is constrained by the number of partitions.
+
+   - **Dynamic Partitioning**:
+     - **Advantages**:
+       - **Flexibility**: Partitions are created based on the exact size required by the process, ensuring efficient utilization.
+       - **Accommodates Larger Processes**: Since partitions are dynamic, larger processes can be accommodated.
+     - **Disadvantages**:
+       - **External Fragmentation**: Over time, free memory blocks ("holes") can become scattered, making it hard to find contiguous memory for new processes.
+       - **Complexity**: Dynamic partitioning requires more sophisticated memory management techniques.
+
+2. **Placement Algorithms**:
+   
+   - Used mainly in the context of Dynamic Partitioning to decide where in memory a process should be loaded.
+     - **Best-fit**: Places the process in the smallest free partition that fits the process. This can produce many small unallocated holes.
+     - **First-fit**: Places the process in the first available partition that is large enough. It can be faster but may not make the most optimal use of memory.
+     - **Next-fit**: Similar to first-fit, but starts the search from the location of the last placement.
+     - **Worst-fit**: Places the process in the largest available partition, based on the idea that this large partition can accommodate future processes.
+
+3. **How does the Buddy System Work?**
+   
+   - The **Buddy System** is a memory allocation scheme.
+     - **Memory Size Consideration**: Memory size is considered as powers of two. If a block of a needed size is not available, existing blocks are divided recursively.
+     - **Dynamic Division and Combination**: If the exact block size isn't present, a larger block is split recursively until the desired size is achieved. Conversely, when a block is freed, it can be combined with its "buddy" (adjacent block of the same size) to form a larger block.
+     - This system tries to minimize fragmentation by ensuring that blocks are always split and coalesced in a structured manner.
+     - On average, the Buddy System achieves about 75% memory usage efficiency.
+
+4. **Paging and Segmentation and their Relationship to Fixed and Dynamic Partitioning**:
+
+   - **Paging**:
+     - Divides both physical memory and process memory into fixed-size blocks called frames and pages, respectively.
+     - It provides a way to manage memory in a fixed-size manner similar to fixed partitioning but is more flexible due to its ability to swap pages in and out.
+   
+   - **Segmentation**:
+     - Divides memory into segments of variable sizes, based on the requirements of different parts of a program or data structures.
+     - It offers variable partitioning much like dynamic partitioning.
+   
+   - **Relationship**:
+     - **Fixed Partitioning vs. Paging**: Both deal with fixed sizes, but paging offers more flexibility and eliminates external fragmentation.
+     - **Dynamic Partitioning vs. Segmentation**: Both allow variable-sized divisions, but segmentation aligns more closely with logical divisions in a program or dataset.
+
