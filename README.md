@@ -255,3 +255,46 @@ For ensuring cache and main memory synchronization:
      - **Fixed Partitioning vs. Paging**: Both deal with fixed sizes, but paging offers more flexibility and eliminates external fragmentation.
      - **Dynamic Partitioning vs. Segmentation**: Both allow variable-sized divisions, but segmentation aligns more closely with logical divisions in a program or dataset.
 
+# Chapter 4: Virtual Memory
+*[Distributing Process Images Across Multiple Memory Types]*
+
+## 1. Introduction
+- **Virtual Memory** is a memory management capability of an OS that uses hardware and software to allow a computer to compensate for physical memory shortages, temporarily transferring data from random access memory (RAM) to disk storage.
+
+## 2. Virtual Memory Layout
+- In GNU/Linux on a 32-bit machine, attempts to access prohibited segments result in segmentation faults. Memory is organized into levels to manage large virtual address spaces efficiently.
+
+## 3. Page Table Organization
+- The page table should ideally be kept completely in memory, with the start address in a register and the page number serving as an index to the table. However, page tables can become very large (e.g., 8 million entries for 4 GB virtual memory), making them difficult to manage with traditional means.
+
+## 4. Multilevel Page Tables
+- Employing bits of the virtual page number as indices, multilevel page tables help manage large address spaces. The first level table entries point to the start addresses of second-level tables, which contain frame numbers if the page is present in memory.
+
+## 5. Inverted Page Tables
+- Inverted page tables are used to handle more virtual pages than physical frames. They are smaller but lookups can be difficult. Hashing functions are employed to manage lookups efficiently.
+
+## 6. Translation Lookaside Buffer (TLB)
+- TLB caches are critical for reducing the number of virtual-physical address translations. It contains (VPN, frame number) pairs and should be flushed with every process change to maintain coherence.
+
+## 7. Virtual Memory: Software Support
+- The OS must ensure the right page is loaded in memory when a page fault occurs. The software must decide where to load the new page, how to determine the number of pages per process, and choose which page to replace.
+
+## 8. Replacement Algorithms
+- **Optimal Algorithm (MIN)**: Guarantees the minimum number of page faults but is not practical as it requires perfect knowledge of future events.
+- **Least-Recently-Used (LRU)**: Replaces the least recently used page.
+- **First-In-First-Out (FIFO)**: Simple but can lead to Belady's anomaly where more memory leads to more faults.
+- **Clock Algorithm**: A more practical approach that aims to replace pages based on a mix of their age and use status.
+
+## 9. Resident Set Policy
+- Determines which frames are eligible for replacement. Fixed vs. variable allocation impacts the number of page frames per process. The active working set of a process influences the decision on the number of pages.
+
+## Key points to remember:
+- Efficient organization of page tables.
+- Complete procedure for querying a memory word in a virtual memory system.
+- Main page replacement algorithms and their characteristics.
+
+## Further Reading
+- OS Course Notes - Chapter 4.
+- Special attention to the proof related to the MIN algorithm.
+
+For more detailed information and specific examples, please refer to the OS Course Notes - Chapter 4 and the recorded lecture from Prof. Van Houdt on Blackboard.
