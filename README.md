@@ -298,3 +298,75 @@ For ensuring cache and main memory synchronization:
 - Special attention to the proof related to the MIN algorithm.
 
 For more detailed information and specific examples, please refer to the OS Course Notes - Chapter 4 and the recorded lecture from Prof. Van Houdt on Blackboard.
+
+# Chapter 5 : Processor Scheduling
+
+## Introduction to Processor Scheduling
+- **Processor Scheduling**: Determines the evolution of process states (running, ready, blocked, etc.).
+- **Sub-Problems**: Long-term, medium-term, and short-term scheduling.
+
+## Types of Scheduling
+1. **Long-Term Scheduling**
+   - Deals with transitioning from "New" to "Ready" state.
+   - Key Decisions: When and which process to activate.
+   - Monitors processor's idle state and balances processor vs. I/O-bound processes.
+
+2. **Medium-Term Scheduling**
+   - More frequent than long-term.
+   - Manages processes moving into a suspend state, related to virtual memory management.
+
+3. **Short-Term Scheduling**
+   - Decides which process uses the processor.
+   - Various algorithms are implemented for this purpose.
+
+## Performance Metrics
+- **Average Turnaround Time (Tq)**: Time before a process is completely executed, including blocked or ready states.
+- **Response Time**: Time before a process goes into the running state, crucial for interactive systems.
+- **Fairness and Predictability**: Distribution of resources and influence of other processes, respectively.
+
+## Scheduling Models and Problems
+- **Notation (α|β|γ)**:
+  - α: Machine Environment (e.g., 1 machine/processor or multiple identical ones).
+  - β: Pre-conditions (e.g., arrival/release times, preemption possibility, precedence conditions).
+  - γ: Function to be minimized (e.g., total completion time, number of tasks missing a deadline).
+
+## Short-Term Scheduling Algorithms
+1. **First-In First-Out (FIFO)**
+   - Oldest process in the ready queue goes first.
+   - Properties: May cause high turnaround time for small processes and is disadvantageous for I/O-bound processes.
+
+2. **Round Robin (RR)**
+   - Processes take turns on the processor during a quantum (q).
+   - Properties: Faster conclusion for small processes, but choice of q is important.
+
+## Optimal Algorithms
+1. **Short Process Next (SPN)**
+   - Chooses the process with the shortest execution time first.
+   - Properties: Requires prior knowledge of processing times.
+
+2. **Weighted Short Process Next (WSPN)**
+   - Similar to SPN, but processes have weights to minimize weighted turnaround time.
+   - Smith’s Rule: Optimality in batch scheduling.
+
+3. **Shortest Remaining Time Next (SRTN)**
+   - Selects the process with the smallest remaining execution time.
+   - Properties: Prevents starvation of longer tasks, requires tracking of remaining processing times.
+
+4. **Non-preemptive SRTN**
+   - Minimizes running time when tasks are not interrupted.
+   - Optimal rule is NP-hard but achievable with a 2-approximation.
+
+5. **Highest Response Ratio Next (HRRN)**
+   - Utilizes weighted turnaround time and chooses the process with larger response ratio.
+
+6. **Multilevel Feedback Queues**
+   - Mimics behavior of previous schedules without knowing execution and arrival times.
+   - Implementation involves multiple FIFO queues with different priorities.
+
+## Traditional Unix Scheduler
+- Prioritizes processes using fixed intervals and adjusts priorities based on various factors like user-configurable values and CPU usage.
+
+## Key Takeaways
+- Understanding the advantages and disadvantages of various scheduling algorithms.
+- Relationship of Unix scheduler to other scheduling methods.
+- Contexts and proofs of optimality for SPN, WSPN, SRTN, and non-SRTN algorithms.
