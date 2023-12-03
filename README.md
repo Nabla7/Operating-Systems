@@ -370,3 +370,74 @@ For more detailed information and specific examples, please refer to the OS Cour
 - Understanding the advantages and disadvantages of various scheduling algorithms.
 - Relationship of Unix scheduler to other scheduling methods.
 - Contexts and proofs of optimality for SPN, WSPN, SRTN, and non-SRTN algorithms.
+
+# Chapter 6 : Disk Management
+
+#### **Overview of Disk Management**
+- **Concept**: Disk management involves how operating systems handle and access information on disk drives, a crucial component for data storage and retrieval.
+
+#### **Disk Organization**
+- **Components and Operation**:
+  - Consists of one or more circular disks with a disk head per disk.
+  - Operates at a fixed rotation speed (e.g., 7200 to 10000 rpm).
+- **Disk Partitioning**:
+  - Organized into tracks (concentric circles) and sectors (fixed number of bytes).
+- **Classical Layout vs. Zone Bit Recording (ZBR)**:
+  - Classical Layout: Fixed number of sectors per track, with varying densities.
+  - ZBR: Modern disks divided into zones with a varying number of sectors per track.
+
+#### **Access Times**
+- **Calculation**: \(Ta = Ts + \frac{1}{2r} + \frac{b}{rN}\)
+  - \(Ts\): Head positioning time (seek time).
+  - \(r\): Spinning speed.
+  - \(N\): Number of bytes per track.
+
+#### **Seek Times**
+- **Phases**: Composed of speed-up, coast, slowdown, and settle.
+- **Examples**: 
+  - Very short seeks (~2-4 tracks) mostly involve settle time.
+  - Short seeks (~100 tracks) have no coast phase.
+  - Long seeks mostly involve coasting.
+
+#### **Skewing and Sparing**
+- **Skewing**: Shifts sectors on consecutive tracks to reduce rotational delay.
+- **Sparing**: Maps faulty sectors to other sectors using a list passed to the controller.
+
+#### **Disk Controller**
+- **Functionality**: Connected to the bus, handles requests via device driver software, can buffer at least one sector.
+- **Command Queueing**: Controller can receive multiple requests and determine the order of processing.
+
+#### **Disk Caching**
+- **Strategy**: Uses a cache with read-ahead strategy.
+- **Sequential Reading**: Aggressive read-ahead over multiple tracks for sequential file reading.
+
+#### **Disk Scheduling Algorithms**
+- **First-In First-Out (FIFO)**:
+  - Processes requests in order of arrival.
+  - Fair and efficient for clustered operations but inefficient for random reads.
+- **Shortest Seek Time First (SSTF)**:
+  - Processes requests with the smallest seek time first.
+  - High utilization/efficiency but can lead to starvation for some requests.
+- **SCAN and Cyclic-SCAN (C-SCAN)**:
+  - SSTF variant where the arm changes direction at disk extremes.
+  - C-SCAN continues from the other extreme, reducing unfairness.
+- **LOOK and C-LOOK**:
+  - Variants of SCAN where the arm changes direction if there are no more requests in the current direction.
+  - C-LOOK addresses similar issues as C-SCAN.
+
+#### **RAID (Redundant Arrays of Independent Disks)**
+- **Concept**: Combines many inexpensive disks to form one large, fast, and reliable disk.
+- **Levels**:
+  - **RAID 0 (AID)**: Data striping over multiple disks.
+  - **RAID 1**: Data mirroring over two disks.
+  - **RAID 3+4**: Combines striping with a dedicated disk for parity bits.
+  - **RAID 5+6**: Similar to RAID 4 but spreads parity information across all disks.
+- **Combining RAID Levels**: Involves organizing data according to one RAID level and then subdividing each disk according to another.
+
+#### **Key Points**
+- Focus on understanding different disk scheduling algorithms and their motivations.
+- Comprehend various RAID levels and how to combine them for different applications.
+- Determine which RAID level is best suited for specific applications (sequential vs. random reads).
+
+### **Conclusion**
+This overview of disk management covers how operating systems manage disk drives, from disk organization to RAID configurations. It includes various disk scheduling algorithms, their properties, and their use cases. Understanding these concepts is essential for managing disk-based storage systems effectively and efficiently.
